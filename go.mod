@@ -10,4 +10,5 @@ require (
 	github.com/spf13/cobra v1.8.1 // indirect
 	github.com/spf13/pflag v1.0.5 // indirect
 	golang.org/x/sys v0.22.0 // indirect
+	k8s.io/cli-runtime v0.30.2 // indirect
 )
