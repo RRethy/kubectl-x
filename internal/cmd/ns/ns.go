@@ -18,9 +18,5 @@ func Ns(ctx context.Context, configFlags *genericclioptions.ConfigFlags, namespa
 	}
 	ioStreams := genericiooptions.IOStreams{In: os.Stdin, Out: os.Stdout, ErrOut: os.Stderr}
 	k8sClient := kubernetes.NewClient(configFlags)
-	return Nser{
-		kubeConfig,
-		ioStreams,
-		k8sClient,
-	}.Ns(ctx, namespace)
+	return Nser{kubeConfig, ioStreams, k8sClient}.Ns(ctx, namespace)
 }

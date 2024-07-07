@@ -34,7 +34,7 @@ Example:
 			}
 		}
 
-		checkErr(ctx.Ctx(context.Background(), contextName, namespace))
+		checkErr(ctx.Ctx(context.Background(), configFlags, contextName, namespace))
 	},
 }
 

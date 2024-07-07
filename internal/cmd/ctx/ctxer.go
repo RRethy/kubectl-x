@@ -4,15 +4,18 @@ import (
 	"context"
 	"fmt"
 
+	"k8s.io/cli-runtime/pkg/genericclioptions"
 	"k8s.io/cli-runtime/pkg/genericiooptions"
 
+	"github.com/RRethy/kubectl-x/internal/cmd/ns"
 	"github.com/RRethy/kubectl-x/internal/fzf"
 	"github.com/RRethy/kubectl-x/internal/kubeconfig"
 )
 
 type Ctxer struct {
-	kubeConfig kubeconfig.KubeConfig
-	ioStreams  genericiooptions.IOStreams
+	kubeConfig  kubeconfig.KubeConfig
+	ioStreams   genericiooptions.IOStreams
+	configFlags *genericclioptions.ConfigFlags
 }
 
 func (c Ctxer) Ctx(ctx context.Context, context, namespace string) error {
@@ -33,5 +36,5 @@ func (c Ctxer) Ctx(ctx context.Context, context, namespace string) error {
 
 	fmt.Fprintf(c.ioStreams.Out, "Switched to context \"%s\".\n", selectedContext)
 
-	return nil
+	return ns.Ns(ctx, c.configFlags, namespace)
 }
