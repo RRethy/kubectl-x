@@ -62,6 +62,21 @@ func (kubeConfig KubeConfig) SetNamespace(namespace string) error {
 	return nil
 }
 
+func (kubeConfig KubeConfig) CurrentContext() (string, error) {
+	if len(kubeConfig.apiConfig.CurrentContext) == 0 {
+		return "", errors.New("current context not set")
+	}
+	return kubeConfig.apiConfig.CurrentContext, nil
+}
+
+func (kubeConfig KubeConfig) CurrentNamespace() (string, error) {
+	ctx, ok := kubeConfig.apiConfig.Contexts[kubeConfig.apiConfig.CurrentContext]
+	if !ok {
+		return "", errors.New("current context not found")
+	}
+	return ctx.Namespace, nil
+}
+
 func (kubeConfig KubeConfig) Write() error {
 	return clientcmd.ModifyConfig(kubeConfig.configAccess, *kubeConfig.apiConfig, true)
 }
