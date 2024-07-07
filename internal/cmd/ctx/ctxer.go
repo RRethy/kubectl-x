@@ -21,7 +21,7 @@ func (c Ctxer) Ctx(ctx context.Context, context, namespace string) error {
 		return fmt.Errorf("selecting context: %s", err)
 	}
 
-	err = c.kubeConfig.UseContext(selectedContext)
+	err = c.kubeConfig.SetContext(selectedContext)
 	if err != nil {
 		return fmt.Errorf("setting context: %w", err)
 	}

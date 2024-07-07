@@ -31,15 +31,7 @@ func (kubeConfig KubeConfig) Contexts() []string {
 	return contexts
 }
 
-func (kubeConfig KubeConfig) UseContextWithNamespace(context, namespace string) error {
-	err := kubeConfig.UseContext(context)
-	if err != nil {
-		return err
-	}
-	return kubeConfig.UseNamespace(namespace)
-}
-
-func (kubeConfig KubeConfig) UseContext(context string) error {
+func (kubeConfig KubeConfig) SetContext(context string) error {
 	if len(context) == 0 {
 		return errors.New("context cannot be empty")
 	}
@@ -51,12 +43,12 @@ func (kubeConfig KubeConfig) UseContext(context string) error {
 
 	kubeConfig.apiConfig.CurrentContext = context
 	if len(ctx.Namespace) > 0 {
-		return kubeConfig.UseNamespace(ctx.Namespace)
+		return kubeConfig.SetNamespace(ctx.Namespace)
 	}
-	return kubeConfig.UseNamespace("default")
+	return kubeConfig.SetNamespace("default")
 }
 
-func (kubeConfig KubeConfig) UseNamespace(namespace string) error {
+func (kubeConfig KubeConfig) SetNamespace(namespace string) error {
 	if len(namespace) == 0 {
 		return errors.New("namespace cannot be empty")
 	}
