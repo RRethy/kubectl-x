@@ -28,11 +28,12 @@ Example:
 			namespace = args[0]
 		}
 
-		checkErr(ns.Ns(context.Background(), configFlags, namespace, exactMatch))
+		checkErr(ns.Ns(context.Background(), configFlags, resourceBuilderFlags, namespace, exactMatch))
 	},
 }
 
 func init() {
 	rootCmd.AddCommand(nsCmd)
 	nsCmd.Flags().BoolVarP(&exactMatch, "exact", "e", false, "Exact match")
+	resourceBuilderFlags.AddFlags(nsCmd.Flags())
 }

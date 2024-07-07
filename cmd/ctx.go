@@ -34,11 +34,12 @@ Example:
 			}
 		}
 
-		checkErr(ctx.Ctx(context.Background(), configFlags, contextName, namespace, exactMatch))
+		checkErr(ctx.Ctx(context.Background(), configFlags, resourceBuilderFlags, contextName, namespace, exactMatch))
 	},
 }
 
 func init() {
 	rootCmd.AddCommand(ctxCmd)
 	ctxCmd.Flags().BoolVarP(&exactMatch, "exact", "e", false, "Exact match")
+	resourceBuilderFlags.AddFlags(ctxCmd.Flags())
 }

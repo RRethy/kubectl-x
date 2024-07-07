@@ -10,9 +10,18 @@ import (
 )
 
 var (
-	configFlags = genericclioptions.NewConfigFlags(true).WithDiscoveryBurst(300).WithDiscoveryQPS(50.0)
-	exactMatch  bool
-	rootCmd     = &cobra.Command{
+	configFlags          = genericclioptions.NewConfigFlags(true).WithDiscoveryBurst(300).WithDiscoveryQPS(50.0)
+	exactMatch           bool
+	resourceBuilderFlags = func() *genericclioptions.ResourceBuilderFlags {
+		builder := genericclioptions.NewResourceBuilderFlags().
+			WithLabelSelector("").
+			WithFieldSelector("").
+			WithAllNamespaces(false).
+			WithAll(false)
+		builder.FileNameFlags = nil
+		return builder
+	}()
+	rootCmd = &cobra.Command{
 		Use: "kubectl-x",
 		Annotations: map[string]string{
 			cobra.CommandDisplayNameAnnotation: "kubectl x",
@@ -23,6 +32,10 @@ var (
 		},
 	}
 )
+
+func init() {
+	configFlags.AddFlags(rootCmd.PersistentFlags())
+}
 
 func Execute() {
 	err := rootCmd.Execute()

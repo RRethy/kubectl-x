@@ -13,19 +13,20 @@ type Interface interface {
 }
 
 type Client struct {
-	ConfigFlags *genericclioptions.ConfigFlags
+	configFlags          *genericclioptions.ConfigFlags
+	resourceBuilderFlags *genericclioptions.ResourceBuilderFlags
 }
 
-func NewClient(configFlags *genericclioptions.ConfigFlags) Interface {
-	return &Client{ConfigFlags: configFlags}
+func NewClient(configFlags *genericclioptions.ConfigFlags, resourceBuilderFlags *genericclioptions.ResourceBuilderFlags) Interface {
+	return &Client{configFlags, resourceBuilderFlags}
 }
 
 func (c *Client) List(ctx context.Context, resourceType string) ([]any, error) {
-	infos, err := resource.NewBuilder(c.ConfigFlags).
+	infos, err := resource.NewBuilder(c.configFlags).
 		WithScheme(scheme.Scheme, scheme.Scheme.PrioritizedVersionsAllGroups()...).
 		// NamespaceParam("default").
-		// FieldSelectorParam(c.FieldSelector).
-		// LabelSelectorParam(c.LabelSelector).
+		FieldSelectorParam(*c.resourceBuilderFlags.FieldSelector).
+		LabelSelectorParam(*c.resourceBuilderFlags.LabelSelector).
 		ContinueOnError().
 		ResourceTypeOrNameArgs(true, string(resourceType)).
 		Flatten().

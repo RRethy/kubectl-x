@@ -13,9 +13,10 @@ import (
 )
 
 type Ctxer struct {
-	kubeConfig  kubeconfig.KubeConfig
-	ioStreams   genericiooptions.IOStreams
-	configFlags *genericclioptions.ConfigFlags
+	kubeConfig           kubeconfig.KubeConfig
+	ioStreams            genericiooptions.IOStreams
+	configFlags          *genericclioptions.ConfigFlags
+	resourceBuilderFlags *genericclioptions.ResourceBuilderFlags
 }
 
 func (c Ctxer) Ctx(ctx context.Context, contextSubstring, namespaceSubstring string, exactMatch bool) error {
@@ -36,5 +37,5 @@ func (c Ctxer) Ctx(ctx context.Context, contextSubstring, namespaceSubstring str
 
 	fmt.Fprintf(c.ioStreams.Out, "Switched to context \"%s\".\n", selectedContext)
 
-	return ns.Ns(ctx, c.configFlags, namespaceSubstring, exactMatch)
+	return ns.Ns(ctx, c.configFlags, c.resourceBuilderFlags, namespaceSubstring, exactMatch)
 }

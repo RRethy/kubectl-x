@@ -26,7 +26,7 @@ func TestFzf_Run(t *testing.T) {
 	ioStreams := genericiooptions.IOStreams{In: bytes.NewReader([]byte("")), Out: bytes.NewBuffer([]byte("")), ErrOut: bytes.NewBuffer([]byte(""))}
 	pipeReader, pipeWriter := io.Pipe()
 	fzf := NewFzf(WithExec(fexec), WithIOStreams(ioStreams), WithPipeReader(pipeReader), WithPipeWriter(pipeWriter))
-	selected, err := fzf.Run([]string{"foo", "bar", "baz"})
+	selected, err := fzf.Run("", []string{"foo", "bar", "baz"})
 	require.NoError(t, err)
 	assert.Equal(t, "bar", selected)
 }

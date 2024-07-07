@@ -9,11 +9,11 @@ import (
 	"k8s.io/cli-runtime/pkg/genericiooptions"
 )
 
-func Ctx(ctx context.Context, configFlags *genericclioptions.ConfigFlags, contextSubstring, namespaceSubstring string, exactMatch bool) error {
+func Ctx(ctx context.Context, configFlags *genericclioptions.ConfigFlags, resourceBuilderFlags *genericclioptions.ResourceBuilderFlags, contextSubstring, namespaceSubstring string, exactMatch bool) error {
 	kubeConfig, err := kubeconfig.NewKubeConfig()
 	if err != nil {
 		return err
 	}
 	ioStreams := genericiooptions.IOStreams{In: os.Stdin, Out: os.Stdout, ErrOut: os.Stderr}
-	return Ctxer{kubeConfig, ioStreams, configFlags}.Ctx(ctx, contextSubstring, namespaceSubstring, exactMatch)
+	return Ctxer{kubeConfig, ioStreams, configFlags, resourceBuilderFlags}.Ctx(ctx, contextSubstring, namespaceSubstring, exactMatch)
 }

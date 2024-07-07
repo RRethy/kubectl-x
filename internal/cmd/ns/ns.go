@@ -11,12 +11,12 @@ import (
 	"github.com/RRethy/kubectl-x/internal/kubernetes"
 )
 
-func Ns(ctx context.Context, configFlags *genericclioptions.ConfigFlags, namespaceSubstring string, exactMatch bool) error {
+func Ns(ctx context.Context, configFlags *genericclioptions.ConfigFlags, resourceBuilderFlags *genericclioptions.ResourceBuilderFlags, namespaceSubstring string, exactMatch bool) error {
 	kubeConfig, err := kubeconfig.NewKubeConfig()
 	if err != nil {
 		return err
 	}
 	ioStreams := genericiooptions.IOStreams{In: os.Stdin, Out: os.Stdout, ErrOut: os.Stderr}
-	k8sClient := kubernetes.NewClient(configFlags)
+	k8sClient := kubernetes.NewClient(configFlags, resourceBuilderFlags)
 	return Nser{kubeConfig, ioStreams, k8sClient}.Ns(ctx, namespaceSubstring, exactMatch)
 }
