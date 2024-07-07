@@ -18,7 +18,7 @@ type Nser struct {
 	k8sClient  kubernetes.Interface
 }
 
-func (n Nser) Ns(ctx context.Context, namespace string) error {
+func (n Nser) Ns(ctx context.Context, namespace string, exactMatch bool) error {
 	namespaces, err := kubernetes.List[*corev1.Namespace](ctx, n.k8sClient)
 	if err != nil {
 		return fmt.Errorf("listing namespaces: %s", err)
@@ -29,7 +29,7 @@ func (n Nser) Ns(ctx context.Context, namespace string) error {
 		namespaceNames[i] = ns.Name
 	}
 
-	selectedNamespace, err := fzf.NewFzf(fzf.WithIOStreams(n.ioStreams)).Run(namespaceNames)
+	selectedNamespace, err := fzf.NewFzf(fzf.WithIOStreams(n.ioStreams), fzf.WithExactMatch(exactMatch)).Run(namespace, namespaceNames)
 	if err != nil {
 		return fmt.Errorf("selecting namespace: %s", err)
 	}

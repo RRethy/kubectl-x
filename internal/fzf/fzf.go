@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"fmt"
 	"io"
+	"sort"
 	"strings"
 
 	"k8s.io/cli-runtime/pkg/genericiooptions"
@@ -38,11 +39,25 @@ func WithPipeWriter(w *io.PipeWriter) FzfOption {
 	}
 }
 
+func WithExactMatch(exactMatch bool) FzfOption {
+	return func(f *Fzf) {
+		f.exactMatch = exactMatch
+	}
+}
+
+func WithSorted(sorted bool) FzfOption {
+	return func(f *Fzf) {
+		f.sorted = sorted
+	}
+}
+
 type Fzf struct {
 	exec       exec.Interface
 	ioStreams  genericiooptions.IOStreams
 	pipeReader *io.PipeReader
 	pipeWriter *io.PipeWriter
+	exactMatch bool
+	sorted     bool
 }
 
 func NewFzf(opts ...FzfOption) *Fzf {
@@ -52,6 +67,8 @@ func NewFzf(opts ...FzfOption) *Fzf {
 		ioStreams:  genericiooptions.IOStreams{},
 		pipeReader: pipeReader,
 		pipeWriter: pipeWriter,
+		exactMatch: false,
+		sorted:     true,
 	}
 	for _, opt := range opts {
 		opt(fzf)
@@ -59,21 +76,21 @@ func NewFzf(opts ...FzfOption) *Fzf {
 	return fzf
 }
 
-func (f *Fzf) Run(items []string) (string, error) {
-	cmd := f.exec.Command(
-		binaryName,
-		"--height",
-		"30%",
-		"--ansi",
-		"--select-1",
-		"--exit-0",
-		"--color=dark",
-		"--layout=reverse",
-	)
+func (f *Fzf) Run(initialSearch string, items []string) (string, error) {
+	cmd := f.exec.Command(binaryName, f.buildArgs()...)
 
 	go func() {
 		defer f.pipeWriter.Close()
-		if _, err := fmt.Fprint(f.pipeWriter, strings.Join(items, "\n")); err != nil {
+		var filteredItems []string
+		for _, item := range items {
+			if strings.Contains(item, initialSearch) {
+				filteredItems = append(filteredItems, item)
+			}
+		}
+		if f.sorted {
+			sort.Strings(filteredItems)
+		}
+		if _, err := fmt.Fprint(f.pipeWriter, strings.Join(filteredItems, "\n")); err != nil {
 			panic(err)
 		}
 	}()
@@ -93,4 +110,20 @@ func (f *Fzf) Run(items []string) (string, error) {
 		return "", fmt.Errorf("no item selected")
 	}
 	return output, nil
+}
+
+func (f Fzf) buildArgs() []string {
+	args := []string{
+		"--height",
+		"30%",
+		"--ansi",
+		"--select-1",
+		"--exit-0",
+		"--color=dark",
+		"--layout=reverse",
+	}
+	if f.exactMatch {
+		args = append(args, "--exact")
+	}
+	return args
 }

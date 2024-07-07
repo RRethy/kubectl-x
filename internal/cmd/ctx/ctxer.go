@@ -18,8 +18,8 @@ type Ctxer struct {
 	configFlags *genericclioptions.ConfigFlags
 }
 
-func (c Ctxer) Ctx(ctx context.Context, context, namespace string) error {
-	selectedContext, err := fzf.NewFzf(fzf.WithIOStreams(c.ioStreams)).Run(c.kubeConfig.Contexts())
+func (c Ctxer) Ctx(ctx context.Context, contextSubstring, namespaceSubstring string, exactMatch bool) error {
+	selectedContext, err := fzf.NewFzf(fzf.WithIOStreams(c.ioStreams), fzf.WithExactMatch(exactMatch)).Run(contextSubstring, c.kubeConfig.Contexts())
 	if err != nil {
 		return fmt.Errorf("selecting context: %s", err)
 	}
@@ -36,5 +36,5 @@ func (c Ctxer) Ctx(ctx context.Context, context, namespace string) error {
 
 	fmt.Fprintf(c.ioStreams.Out, "Switched to context \"%s\".\n", selectedContext)
 
-	return ns.Ns(ctx, c.configFlags, namespace)
+	return ns.Ns(ctx, c.configFlags, namespaceSubstring, exactMatch)
 }

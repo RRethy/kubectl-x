@@ -11,6 +11,7 @@ import (
 
 var (
 	configFlags = genericclioptions.NewConfigFlags(true).WithDiscoveryBurst(300).WithDiscoveryQPS(50.0)
+	exactMatch  bool
 	rootCmd     = &cobra.Command{
 		Use: "kubectl-x",
 		Annotations: map[string]string{
