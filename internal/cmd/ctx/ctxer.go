@@ -13,7 +13,7 @@ import (
 )
 
 type Ctxer struct {
-	kubeConfig           kubeconfig.KubeConfig
+	kubeConfig           kubeconfig.Interface
 	ioStreams            genericiooptions.IOStreams
 	configFlags          *genericclioptions.ConfigFlags
 	resourceBuilderFlags *genericclioptions.ResourceBuilderFlags

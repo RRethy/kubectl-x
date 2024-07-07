@@ -97,15 +97,15 @@ func TestKubeConfig_CurrentContext(t *testing.T) {
 		},
 	}
 
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			context, err := KubeConfig{apiConfig: tt.apiConfig}.CurrentContext()
-			if tt.err {
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			context, err := KubeConfig{apiConfig: test.apiConfig}.GetCurrentContext()
+			if test.err {
 				require.NotNil(t, err)
-				assert.Equal(t, tt.errMsg, err.Error())
+				assert.Equal(t, test.errMsg, err.Error())
 			} else {
 				require.Nil(t, err)
-				assert.Equal(t, tt.expected, context)
+				assert.Equal(t, test.expected, context)
 			}
 		})
 	}
@@ -123,7 +123,7 @@ func TestKubeConfig_CurrentNamespace(t *testing.T) {
 		},
 	}
 
-	namespace, err := kubeConfig.CurrentNamespace()
+	namespace, err := kubeConfig.GetCurrentNamespace()
 	require.Nil(t, err)
 	assert.Equal(t, "namespace1", namespace)
 }

@@ -8,12 +8,23 @@ import (
 	"k8s.io/client-go/tools/clientcmd/api"
 )
 
+var _ Interface = &KubeConfig{}
+
+type Interface interface {
+	Contexts() []string
+	SetContext(context string) error
+	SetNamespace(namespace string) error
+	GetCurrentContext() (string, error)
+	GetCurrentNamespace() (string, error)
+	Write() error
+}
+
 type KubeConfig struct {
 	configAccess clientcmd.ConfigAccess
 	apiConfig    *api.Config
 }
 
-func NewKubeConfig() (KubeConfig, error) {
+func NewKubeConfig() (Interface, error) {
 	configAccess := clientcmd.NewDefaultPathOptions()
 	config, err := configAccess.GetStartingConfig()
 	if err != nil {
@@ -62,14 +73,14 @@ func (kubeConfig KubeConfig) SetNamespace(namespace string) error {
 	return nil
 }
 
-func (kubeConfig KubeConfig) CurrentContext() (string, error) {
+func (kubeConfig KubeConfig) GetCurrentContext() (string, error) {
 	if len(kubeConfig.apiConfig.CurrentContext) == 0 {
 		return "", errors.New("current context not set")
 	}
 	return kubeConfig.apiConfig.CurrentContext, nil
 }
 
-func (kubeConfig KubeConfig) CurrentNamespace() (string, error) {
+func (kubeConfig KubeConfig) GetCurrentNamespace() (string, error) {
 	ctx, ok := kubeConfig.apiConfig.Contexts[kubeConfig.apiConfig.CurrentContext]
 	if !ok {
 		return "", errors.New("current context not found")

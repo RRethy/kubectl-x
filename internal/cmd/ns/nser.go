@@ -13,7 +13,7 @@ import (
 )
 
 type Nser struct {
-	kubeConfig kubeconfig.KubeConfig
+	kubeConfig kubeconfig.Interface
 	ioStreams  genericiooptions.IOStreams
 	k8sClient  kubernetes.Interface
 }
