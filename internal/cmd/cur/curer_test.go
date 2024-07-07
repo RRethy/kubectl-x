@@ -44,8 +44,8 @@ func TestCurer_Cur(t *testing.T) {
 		t.Run(test.name, func(t *testing.T) {
 			out := &bytes.Buffer{}
 			err := Curer{
-				kubeConfig: kubeconfig.NewFakeKubeConfig(nil, test.currentContext, test.currentNamespace),
-				ioStreams:  genericiooptions.IOStreams{Out: out},
+				KubeConfig: kubeconfig.NewFakeKubeConfig(nil, test.currentContext, test.currentNamespace),
+				IoStreams:  genericiooptions.IOStreams{Out: out},
 			}.Cur(context.Background())
 			if test.err {
 				require.Error(t, err)

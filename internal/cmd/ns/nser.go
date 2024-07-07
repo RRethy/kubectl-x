@@ -13,13 +13,14 @@ import (
 )
 
 type Nser struct {
-	kubeConfig kubeconfig.Interface
-	ioStreams  genericiooptions.IOStreams
-	k8sClient  kubernetes.Interface
+	KubeConfig kubeconfig.Interface
+	IoStreams  genericiooptions.IOStreams
+	K8sClient  kubernetes.Interface
+	Fzf        fzf.Interface
 }
 
-func (n Nser) Ns(ctx context.Context, namespace string, exactMatch bool) error {
-	namespaces, err := kubernetes.List[*corev1.Namespace](ctx, n.k8sClient)
+func (n Nser) Ns(ctx context.Context, namespace string) error {
+	namespaces, err := kubernetes.List[*corev1.Namespace](ctx, n.K8sClient)
 	if err != nil {
 		return fmt.Errorf("listing namespaces: %s", err)
 	}
@@ -29,22 +30,22 @@ func (n Nser) Ns(ctx context.Context, namespace string, exactMatch bool) error {
 		namespaceNames[i] = ns.Name
 	}
 
-	selectedNamespace, err := fzf.NewFzf(fzf.WithIOStreams(n.ioStreams), fzf.WithExactMatch(exactMatch)).Run(namespace, namespaceNames)
+	selectedNamespace, err := n.Fzf.Run(namespace, namespaceNames)
 	if err != nil {
 		return fmt.Errorf("selecting namespace: %s", err)
 	}
 
-	err = n.kubeConfig.SetNamespace(selectedNamespace)
+	err = n.KubeConfig.SetNamespace(selectedNamespace)
 	if err != nil {
 		return fmt.Errorf("setting namespace: %w", err)
 	}
 
-	err = n.kubeConfig.Write()
+	err = n.KubeConfig.Write()
 	if err != nil {
 		return fmt.Errorf("writing kubeconfig: %w", err)
 	}
 
-	fmt.Fprintf(n.ioStreams.Out, "Switched to namespace \"%s\".\n", selectedNamespace)
+	fmt.Fprintf(n.IoStreams.Out, "Switched to namespace \"%s\".\n", selectedNamespace)
 
 	return nil
 }

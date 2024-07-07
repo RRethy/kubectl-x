@@ -13,6 +13,10 @@ import (
 
 const binaryName = "fzf"
 
+type Interface interface {
+	Run(initialSearch string, items []string) (string, error)
+}
+
 type FzfOption func(*Fzf)
 
 func WithExec(exec exec.Interface) FzfOption {
@@ -24,18 +28,6 @@ func WithExec(exec exec.Interface) FzfOption {
 func WithIOStreams(ioStreams genericiooptions.IOStreams) FzfOption {
 	return func(f *Fzf) {
 		f.ioStreams = ioStreams
-	}
-}
-
-func WithPipeReader(r *io.PipeReader) FzfOption {
-	return func(f *Fzf) {
-		f.pipeReader = r
-	}
-}
-
-func WithPipeWriter(w *io.PipeWriter) FzfOption {
-	return func(f *Fzf) {
-		f.pipeWriter = w
 	}
 }
 
@@ -54,19 +46,14 @@ func WithSorted(sorted bool) FzfOption {
 type Fzf struct {
 	exec       exec.Interface
 	ioStreams  genericiooptions.IOStreams
-	pipeReader *io.PipeReader
-	pipeWriter *io.PipeWriter
 	exactMatch bool
 	sorted     bool
 }
 
 func NewFzf(opts ...FzfOption) *Fzf {
-	pipeReader, pipeWriter := io.Pipe()
 	fzf := &Fzf{
 		exec:       exec.New(),
 		ioStreams:  genericiooptions.IOStreams{},
-		pipeReader: pipeReader,
-		pipeWriter: pipeWriter,
 		exactMatch: false,
 		sorted:     true,
 	}
@@ -78,9 +65,10 @@ func NewFzf(opts ...FzfOption) *Fzf {
 
 func (f *Fzf) Run(initialSearch string, items []string) (string, error) {
 	cmd := f.exec.Command(binaryName, f.buildArgs()...)
+	pipeReader, pipeWriter := io.Pipe()
 
 	go func() {
-		defer f.pipeWriter.Close()
+		defer pipeWriter.Close()
 		var filteredItems []string
 		for _, item := range items {
 			if strings.Contains(item, initialSearch) {
@@ -90,12 +78,12 @@ func (f *Fzf) Run(initialSearch string, items []string) (string, error) {
 		if f.sorted {
 			sort.Strings(filteredItems)
 		}
-		if _, err := fmt.Fprint(f.pipeWriter, strings.Join(filteredItems, "\n")); err != nil {
+		if _, err := fmt.Fprint(pipeWriter, strings.Join(filteredItems, "\n")); err != nil {
 			panic(err)
 		}
 	}()
 
-	cmd.SetStdin(f.pipeReader)
+	cmd.SetStdin(pipeReader)
 
 	var out bytes.Buffer
 	cmd.SetStdout(&out)

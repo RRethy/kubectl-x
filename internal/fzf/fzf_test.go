@@ -2,7 +2,6 @@ package fzf
 
 import (
 	"bytes"
-	"io"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -24,8 +23,7 @@ func TestFzf_Run(t *testing.T) {
 		},
 	}
 	ioStreams := genericiooptions.IOStreams{In: bytes.NewReader([]byte("")), Out: bytes.NewBuffer([]byte("")), ErrOut: bytes.NewBuffer([]byte(""))}
-	pipeReader, pipeWriter := io.Pipe()
-	fzf := NewFzf(WithExec(fexec), WithIOStreams(ioStreams), WithPipeReader(pipeReader), WithPipeWriter(pipeWriter))
+	fzf := NewFzf(WithExec(fexec), WithIOStreams(ioStreams))
 	selected, err := fzf.Run("", []string{"foo", "bar", "baz"})
 	require.NoError(t, err)
 	assert.Equal(t, "bar", selected)

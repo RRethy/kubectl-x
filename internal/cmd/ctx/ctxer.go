@@ -4,38 +4,43 @@ import (
 	"context"
 	"fmt"
 
-	"k8s.io/cli-runtime/pkg/genericclioptions"
 	"k8s.io/cli-runtime/pkg/genericiooptions"
 
 	"github.com/RRethy/kubectl-x/internal/cmd/ns"
 	"github.com/RRethy/kubectl-x/internal/fzf"
 	"github.com/RRethy/kubectl-x/internal/kubeconfig"
+	"github.com/RRethy/kubectl-x/internal/kubernetes"
 )
 
 type Ctxer struct {
-	kubeConfig           kubeconfig.Interface
-	ioStreams            genericiooptions.IOStreams
-	configFlags          *genericclioptions.ConfigFlags
-	resourceBuilderFlags *genericclioptions.ResourceBuilderFlags
+	KubeConfig kubeconfig.Interface
+	IoStreams  genericiooptions.IOStreams
+	K8sClient  kubernetes.Interface
+	Fzf        fzf.Interface
 }
 
-func (c Ctxer) Ctx(ctx context.Context, contextSubstring, namespaceSubstring string, exactMatch bool) error {
-	selectedContext, err := fzf.NewFzf(fzf.WithIOStreams(c.ioStreams), fzf.WithExactMatch(exactMatch)).Run(contextSubstring, c.kubeConfig.Contexts())
+func (c Ctxer) Ctx(ctx context.Context, contextSubstring, namespaceSubstring string) error {
+	selectedContext, err := c.Fzf.Run(contextSubstring, c.KubeConfig.Contexts())
 	if err != nil {
 		return fmt.Errorf("selecting context: %s", err)
 	}
 
-	err = c.kubeConfig.SetContext(selectedContext)
+	err = c.KubeConfig.SetContext(selectedContext)
 	if err != nil {
 		return fmt.Errorf("setting context: %w", err)
 	}
 
-	err = c.kubeConfig.Write()
+	err = c.KubeConfig.Write()
 	if err != nil {
 		return fmt.Errorf("writing kubeconfig: %w", err)
 	}
 
-	fmt.Fprintf(c.ioStreams.Out, "Switched to context \"%s\".\n", selectedContext)
+	fmt.Fprintf(c.IoStreams.Out, "Switched to context \"%s\".\n", selectedContext)
 
-	return ns.Ns(ctx, c.configFlags, c.resourceBuilderFlags, namespaceSubstring, exactMatch)
+	return ns.Nser{
+		KubeConfig: c.KubeConfig,
+		IoStreams:  c.IoStreams,
+		K8sClient:  c.K8sClient,
+		Fzf:        c.Fzf,
+	}.Ns(ctx, namespaceSubstring)
 }

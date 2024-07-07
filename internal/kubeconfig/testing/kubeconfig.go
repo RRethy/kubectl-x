@@ -27,11 +27,17 @@ func (fake *FakeKubeConfig) Contexts() []string {
 }
 
 func (fake *FakeKubeConfig) SetContext(context string) error {
+	if context == "" {
+		return errors.New("context cannot be empty")
+	}
 	fake.currentContext = context
 	return nil
 }
 
 func (fake *FakeKubeConfig) SetNamespace(namespace string) error {
+	if namespace == "" {
+		return errors.New("namespace cannot be empty")
+	}
 	fake.currentNamespace = namespace
 	return nil
 }

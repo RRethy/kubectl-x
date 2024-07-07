@@ -9,23 +9,23 @@ import (
 )
 
 type Curer struct {
-	kubeConfig kubeconfig.Interface
-	ioStreams  genericiooptions.IOStreams
+	KubeConfig kubeconfig.Interface
+	IoStreams  genericiooptions.IOStreams
 }
 
 func (c Curer) Cur(ctx context.Context) error {
-	currentContext, err := c.kubeConfig.GetCurrentContext()
+	currentContext, err := c.KubeConfig.GetCurrentContext()
 	if err != nil {
 		return fmt.Errorf("getting current context: %w", err)
 	}
 
-	currentNamespace, err := c.kubeConfig.GetCurrentNamespace()
+	currentNamespace, err := c.KubeConfig.GetCurrentNamespace()
 	if err != nil {
 		return fmt.Errorf("getting current namespace: %w", err)
 	}
 
-	fmt.Fprintf(c.ioStreams.Out, "Current context: \"%s\"\n", currentContext)
-	fmt.Fprintf(c.ioStreams.Out, "Current namespace: \"%s\"\n", currentNamespace)
+	fmt.Fprintf(c.IoStreams.Out, "Current context: \"%s\"\n", currentContext)
+	fmt.Fprintf(c.IoStreams.Out, "Current namespace: \"%s\"\n", currentNamespace)
 
 	return nil
 }
