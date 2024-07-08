@@ -18,6 +18,7 @@ Usage:
 
 Args:
   namespace  Partial match to filter namespaces on.
+             "-" to switch to the previous namespace.
 
 Example:
   kubectl-pi ns

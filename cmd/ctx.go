@@ -18,6 +18,7 @@ Usage:
 
 Args:
   context    Partial match to filter contexts on.
+             "-" to switch to the previous ctx/ns.
   namespace  Partial match to filter namespaces on.
 
 Example:
