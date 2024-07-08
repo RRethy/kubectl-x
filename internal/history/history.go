@@ -9,7 +9,7 @@ import (
 )
 
 const (
-	maxHistoryItems = 100
+	maxHistoryItems = 2
 )
 
 var (

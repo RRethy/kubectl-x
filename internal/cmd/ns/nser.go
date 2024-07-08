@@ -3,8 +3,6 @@ package ns
 import (
 	"context"
 	"fmt"
-	"strconv"
-	"strings"
 
 	corev1 "k8s.io/api/core/v1"
 	"k8s.io/cli-runtime/pkg/genericiooptions"
@@ -25,16 +23,9 @@ type Nser struct {
 
 func (n Nser) Ns(ctx context.Context, namespace string) error {
 	var selectedNamespace string
-	if strings.HasPrefix(namespace, "-") {
-		if namespace == "-" {
-			namespace = "-1"
-		}
-		num, err := strconv.ParseInt(strings.TrimPrefix(namespace, "-"), 10, 8)
-		if err != nil {
-			return fmt.Errorf("parsing namespace argument: %s", err)
-		}
-
-		selectedNamespace, err = n.History.Get("namespace", int(num))
+	var err error
+	if namespace == "-" {
+		selectedNamespace, err = n.History.Get("namespace", 1)
 		if err != nil {
 			return fmt.Errorf("getting namespace from history: %s", err)
 		}
@@ -55,7 +46,7 @@ func (n Nser) Ns(ctx context.Context, namespace string) error {
 		}
 	}
 
-	err := n.KubeConfig.SetNamespace(selectedNamespace)
+	err = n.KubeConfig.SetNamespace(selectedNamespace)
 	if err != nil {
 		return fmt.Errorf("setting namespace: %w", err)
 	}

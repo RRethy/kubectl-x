@@ -3,8 +3,6 @@ package ctx
 import (
 	"context"
 	"fmt"
-	"strconv"
-	"strings"
 
 	"k8s.io/cli-runtime/pkg/genericiooptions"
 
@@ -27,16 +25,8 @@ func (c Ctxer) Ctx(ctx context.Context, contextSubstring, namespaceSubstring str
 	var selectedContext string
 	var selectedNamespace string
 	var err error
-	if strings.HasPrefix(contextSubstring, "-") {
-		if contextSubstring == "-" {
-			contextSubstring = "-1"
-		}
-		num, err := strconv.ParseInt(strings.TrimPrefix(contextSubstring, "-"), 10, 8)
-		if err != nil {
-			return fmt.Errorf("parsing context argument: %s", err)
-		}
-
-		selectedContext, err = c.History.Get("context", int(num))
+	if contextSubstring == "-" {
+		selectedContext, err = c.History.Get("context", 1)
 		if err != nil {
 			return fmt.Errorf("getting context from history: %s", err)
 		}
