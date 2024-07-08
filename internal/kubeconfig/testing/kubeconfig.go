@@ -4,17 +4,18 @@ import (
 	"errors"
 
 	"github.com/RRethy/kubectl-x/internal/kubeconfig"
+	"k8s.io/client-go/tools/clientcmd/api"
 )
 
 var _ kubeconfig.Interface = &FakeKubeConfig{}
 
 type FakeKubeConfig struct {
-	contexts         []string
+	contexts         []*api.Context
 	currentContext   string
 	currentNamespace string
 }
 
-func NewFakeKubeConfig(contexts []string, currentContext, currentNamespace string) *FakeKubeConfig {
+func NewFakeKubeConfig(contexts []*api.Context, currentContext, currentNamespace string) *FakeKubeConfig {
 	return &FakeKubeConfig{
 		contexts,
 		currentContext,
@@ -23,7 +24,11 @@ func NewFakeKubeConfig(contexts []string, currentContext, currentNamespace strin
 }
 
 func (fake *FakeKubeConfig) Contexts() []string {
-	return fake.contexts
+	contexts := make([]string, 0, len(fake.contexts))
+	for _, context := range fake.contexts {
+		contexts = append(contexts, context.Cluster)
+	}
+	return contexts
 }
 
 func (fake *FakeKubeConfig) SetContext(context string) error {
@@ -54,6 +59,10 @@ func (fake *FakeKubeConfig) GetCurrentNamespace() (string, error) {
 		return "", errors.New("current namespace not set")
 	}
 	return fake.currentNamespace, nil
+}
+
+func (fake *FakeKubeConfig) GetNamespaceForContext(context string) (string, error) {
+	return "", nil
 }
 
 func (fake *FakeKubeConfig) Write() error {

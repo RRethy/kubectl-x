@@ -12,6 +12,7 @@ import (
 	"k8s.io/cli-runtime/pkg/genericiooptions"
 
 	fzf "github.com/RRethy/kubectl-x/internal/fzf/testing"
+	history "github.com/RRethy/kubectl-x/internal/history/testing"
 	kubeconfig "github.com/RRethy/kubectl-x/internal/kubeconfig/testing"
 	kubernetes "github.com/RRethy/kubectl-x/internal/kubernetes/testing"
 )
@@ -42,6 +43,7 @@ func TestNser_Ns(t *testing.T) {
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
 			out := &bytes.Buffer{}
+			history := &history.FakeHistory{Data: map[string][]string{"namespace": {"old-foo", "old-bar", "old-baz"}}}
 			err := Nser{
 				KubeConfig: kubeconfig.NewFakeKubeConfig(nil, "foobar", test.selectedNs),
 				IoStreams:  genericiooptions.IOStreams{Out: out},
@@ -55,6 +57,7 @@ func TestNser_Ns(t *testing.T) {
 				Fzf: fzf.NewFakeFzf([]fzf.InputOutput{
 					{Input: test.initialNs, Output: test.selectedNs},
 				}),
+				History: history,
 			}.Ns(context.Background(), test.initialNs)
 
 			if test.err {

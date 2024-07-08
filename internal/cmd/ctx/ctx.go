@@ -5,6 +5,7 @@ import (
 	"os"
 
 	"github.com/RRethy/kubectl-x/internal/fzf"
+	"github.com/RRethy/kubectl-x/internal/history"
 	"github.com/RRethy/kubectl-x/internal/kubeconfig"
 	"github.com/RRethy/kubectl-x/internal/kubernetes"
 	"k8s.io/cli-runtime/pkg/genericclioptions"
@@ -19,5 +20,9 @@ func Ctx(ctx context.Context, configFlags *genericclioptions.ConfigFlags, resour
 	ioStreams := genericiooptions.IOStreams{In: os.Stdin, Out: os.Stdout, ErrOut: os.Stderr}
 	k8sClient := kubernetes.NewClient(configFlags, resourceBuilderFlags)
 	fzf := fzf.NewFzf(fzf.WithIOStreams(ioStreams), fzf.WithExactMatch(exactMatch))
-	return Ctxer{kubeConfig, ioStreams, k8sClient, fzf}.Ctx(ctx, contextSubstring, namespaceSubstring)
+	history, err := history.NewHistory(history.NewConfig())
+	if err != nil {
+		return err
+	}
+	return Ctxer{kubeConfig, ioStreams, k8sClient, fzf, history}.Ctx(ctx, contextSubstring, namespaceSubstring)
 }

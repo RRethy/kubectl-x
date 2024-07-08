@@ -16,6 +16,7 @@ type Interface interface {
 	SetNamespace(namespace string) error
 	GetCurrentContext() (string, error)
 	GetCurrentNamespace() (string, error)
+	GetNamespaceForContext(context string) (string, error)
 	Write() error
 }
 
@@ -84,6 +85,14 @@ func (kubeConfig KubeConfig) GetCurrentNamespace() (string, error) {
 	ctx, ok := kubeConfig.apiConfig.Contexts[kubeConfig.apiConfig.CurrentContext]
 	if !ok {
 		return "", errors.New("current context not found")
+	}
+	return ctx.Namespace, nil
+}
+
+func (kubeConfig KubeConfig) GetNamespaceForContext(context string) (string, error) {
+	ctx, ok := kubeConfig.apiConfig.Contexts[context]
+	if !ok {
+		return "", fmt.Errorf("context '%s' not found", context)
 	}
 	return ctx.Namespace, nil
 }

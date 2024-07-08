@@ -34,6 +34,7 @@ var (
 )
 
 func init() {
+	cobra.OnInitialize(initConfig)
 	configFlags.AddFlags(rootCmd.PersistentFlags())
 }
 
@@ -42,6 +43,9 @@ func Execute() {
 	if err != nil {
 		os.Exit(1)
 	}
+}
+
+func initConfig() {
 }
 
 func checkErr(err error) {

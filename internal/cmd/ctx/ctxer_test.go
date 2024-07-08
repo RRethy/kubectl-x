@@ -12,6 +12,7 @@ import (
 	"k8s.io/cli-runtime/pkg/genericiooptions"
 
 	fzf "github.com/RRethy/kubectl-x/internal/fzf/testing"
+	history "github.com/RRethy/kubectl-x/internal/history/testing"
 	kubeconfig "github.com/RRethy/kubectl-x/internal/kubeconfig/testing"
 	kubernetes "github.com/RRethy/kubectl-x/internal/kubernetes/testing"
 )
@@ -56,6 +57,7 @@ func TestCtxer_Ctx(t *testing.T) {
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
 			out := &bytes.Buffer{}
+			history := &history.FakeHistory{Data: map[string][]string{"context": {"old-foo", "old-bar", "old-baz"}}}
 			err := Ctxer{
 				kubeconfig.NewFakeKubeConfig(nil, test.selectedContext, test.selectedNamespace),
 				genericiooptions.IOStreams{Out: out},
@@ -70,6 +72,7 @@ func TestCtxer_Ctx(t *testing.T) {
 					{Input: test.initialContext, Output: test.selectedContext},
 					{Input: test.initialNamespace, Output: test.selectedNamespace},
 				}),
+				history,
 			}.Ctx(context.Background(), test.initialContext, test.initialNamespace)
 
 			if test.err {
