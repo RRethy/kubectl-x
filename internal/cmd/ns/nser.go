@@ -25,7 +25,7 @@ func (n Nser) Ns(ctx context.Context, namespace string) error {
 	var selectedNamespace string
 	var err error
 	if namespace == "-" {
-		selectedNamespace, err = n.History.Get("namespace", 1)
+		selectedNamespace, err = n.History.Get("namespace", 0)
 		if err != nil {
 			return fmt.Errorf("getting namespace from history: %s", err)
 		}

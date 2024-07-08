@@ -3,7 +3,6 @@ package history
 import (
 	"os"
 	"path/filepath"
-	"strconv"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -118,11 +117,6 @@ func TestHistory_Get(t *testing.T) {
 }
 
 func TestHistory_Add(t *testing.T) {
-	largeHistory := make([]string, 100)
-	for i := range largeHistory {
-		largeHistory[i] = "context" + strconv.Itoa(i+1)
-	}
-
 	tests := []struct {
 		name     string
 		data     map[string][]string
@@ -139,7 +133,7 @@ func TestHistory_Add(t *testing.T) {
 			group: "context",
 			item:  "context3",
 			expected: map[string][]string{
-				"context":   {"context3", "context1", "context2"},
+				"context":   {"context3", "context1"},
 				"namespace": {"namespace1", "namespace2"},
 			},
 		},
@@ -155,12 +149,12 @@ func TestHistory_Add(t *testing.T) {
 		{
 			name: "does not go over max history size",
 			data: map[string][]string{
-				"context": largeHistory,
+				"context": {"context1", "context2"},
 			},
 			group: "context",
 			item:  "context101",
 			expected: map[string][]string{
-				"context": append([]string{"context101"}, largeHistory[:99]...),
+				"context": {"context101", "context1"},
 			},
 		},
 	}

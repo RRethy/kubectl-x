@@ -10,6 +10,7 @@ import (
 	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/cli-runtime/pkg/genericiooptions"
+	"k8s.io/client-go/tools/clientcmd/api"
 
 	fzf "github.com/RRethy/kubectl-x/internal/fzf/testing"
 	history "github.com/RRethy/kubectl-x/internal/history/testing"
@@ -34,7 +35,6 @@ func TestCtxer_Ctx(t *testing.T) {
 			selectedContext:   "foobar",
 			selectedNamespace: "baz",
 			expectedOut:       "Switched to context \"foobar\".\nSwitched to namespace \"baz\".\n",
-			err:               false,
 		},
 		{
 			name:              "returns error when selecting context fails",
@@ -52,6 +52,14 @@ func TestCtxer_Ctx(t *testing.T) {
 			selectedNamespace: "",
 			err:               true,
 		},
+		{
+			name:              "switches to context and namespace from history",
+			initialContext:    "-",
+			initialNamespace:  "",
+			selectedContext:   "old-foo",
+			selectedNamespace: "old-ns-foo",
+			expectedOut:       "Switched to context \"old-foo\".\nSwitched to namespace \"old-ns-foo\".\n",
+		},
 	}
 
 	for _, test := range tests {
@@ -59,7 +67,11 @@ func TestCtxer_Ctx(t *testing.T) {
 			out := &bytes.Buffer{}
 			history := &history.FakeHistory{Data: map[string][]string{"context": {"old-foo", "old-bar", "old-baz"}}}
 			err := Ctxer{
-				kubeconfig.NewFakeKubeConfig(nil, test.selectedContext, test.selectedNamespace),
+				kubeconfig.NewFakeKubeConfig(
+					map[string]*api.Context{"old-foo": {Cluster: "old-foo", Namespace: "old-ns-foo"}},
+					test.selectedContext,
+					test.selectedNamespace,
+				),
 				genericiooptions.IOStreams{Out: out},
 				kubernetes.NewFakeClient(map[string][]any{
 					"namespace": {

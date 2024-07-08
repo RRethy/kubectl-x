@@ -10,12 +10,12 @@ import (
 var _ kubeconfig.Interface = &FakeKubeConfig{}
 
 type FakeKubeConfig struct {
-	contexts         []*api.Context
+	contexts         map[string]*api.Context
 	currentContext   string
 	currentNamespace string
 }
 
-func NewFakeKubeConfig(contexts []*api.Context, currentContext, currentNamespace string) *FakeKubeConfig {
+func NewFakeKubeConfig(contexts map[string]*api.Context, currentContext, currentNamespace string) *FakeKubeConfig {
 	return &FakeKubeConfig{
 		contexts,
 		currentContext,
@@ -62,7 +62,7 @@ func (fake *FakeKubeConfig) GetCurrentNamespace() (string, error) {
 }
 
 func (fake *FakeKubeConfig) GetNamespaceForContext(context string) (string, error) {
-	return "", nil
+	return fake.contexts[context].Namespace, nil
 }
 
 func (fake *FakeKubeConfig) Write() error {
