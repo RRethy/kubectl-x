@@ -26,7 +26,7 @@ func (c Ctxer) Ctx(ctx context.Context, contextSubstring, namespaceSubstring str
 	var selectedNamespace string
 	var err error
 	if contextSubstring == "-" {
-		selectedContext, err = c.History.Get("context", 0)
+		selectedContext, err = c.History.Get("context", 1)
 		if err != nil {
 			return fmt.Errorf("getting context from history: %s", err)
 		}

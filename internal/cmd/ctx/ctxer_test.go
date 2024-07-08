@@ -56,9 +56,9 @@ func TestCtxer_Ctx(t *testing.T) {
 			name:              "switches to context and namespace from history",
 			initialContext:    "-",
 			initialNamespace:  "",
-			selectedContext:   "old-foo",
-			selectedNamespace: "old-ns-foo",
-			expectedOut:       "Switched to context \"old-foo\".\nSwitched to namespace \"old-ns-foo\".\n",
+			selectedContext:   "",
+			selectedNamespace: "",
+			expectedOut:       "Switched to context \"old-bar\".\nSwitched to namespace \"old-ns-bar\".\n",
 		},
 	}
 
@@ -68,7 +68,10 @@ func TestCtxer_Ctx(t *testing.T) {
 			history := &history.FakeHistory{Data: map[string][]string{"context": {"old-foo", "old-bar", "old-baz"}}}
 			err := Ctxer{
 				kubeconfig.NewFakeKubeConfig(
-					map[string]*api.Context{"old-foo": {Cluster: "old-foo", Namespace: "old-ns-foo"}},
+					map[string]*api.Context{
+						"old-foo": {Cluster: "old-foo", Namespace: "old-ns-foo"},
+						"old-bar": {Cluster: "old-bar", Namespace: "old-ns-bar"},
+					},
 					test.selectedContext,
 					test.selectedNamespace,
 				),

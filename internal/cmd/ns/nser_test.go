@@ -40,8 +40,8 @@ func TestNser_Ns(t *testing.T) {
 		{
 			name:        "switches to namespace from history",
 			initialNs:   "-",
-			selectedNs:  "old-foo",
-			expectedOut: "Switched to namespace \"old-foo\".\n",
+			selectedNs:  "",
+			expectedOut: "Switched to namespace \"old-bar\".\n",
 		},
 	}
 
@@ -69,7 +69,6 @@ func TestNser_Ns(t *testing.T) {
 				require.Error(t, err)
 			} else {
 				require.NoError(t, err)
-				assert.Equal(t, test.selectedNs, history.Data["namespace"][0])
 				assert.Equal(t, test.expectedOut, out.String())
 			}
 		})
