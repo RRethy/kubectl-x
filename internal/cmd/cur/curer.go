@@ -23,9 +23,11 @@ func (c Curer) Cur(ctx context.Context) error {
 	if err != nil {
 		return fmt.Errorf("getting current namespace: %w", err)
 	}
+	if currentNamespace == "" {
+		currentNamespace = "default"
+	}
 
-	fmt.Fprintf(c.IoStreams.Out, "Current context: \"%s\"\n", currentContext)
-	fmt.Fprintf(c.IoStreams.Out, "Current namespace: \"%s\"\n", currentNamespace)
+	fmt.Fprintf(c.IoStreams.Out, "--context %s --namespace %s\n", currentContext, currentNamespace)
 
 	return nil
 }
