@@ -21,7 +21,6 @@ Available Commands:
   ctx         Switch context.
   cur         Print current context and namespace.
   ns          Switch namespace.
-  shell       TODO.
 ```
 
 ### `kubectl x ctx`
