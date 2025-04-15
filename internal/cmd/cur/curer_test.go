@@ -23,7 +23,7 @@ func TestCurer_Cur(t *testing.T) {
 			name:             "prints context and namespace successfully",
 			currentContext:   "foobar",
 			currentNamespace: "baz",
-			expectedOut:      "Current context: \"foobar\"\nCurrent namespace: \"baz\"\n",
+			expectedOut:      "--context foobar --namespace baz\n",
 			err:              false,
 		},
 		{
