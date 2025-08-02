@@ -1,0 +1,14 @@
+{
+  "mcpServers": {
+    "kubernetes": {
+      "type": "stdio",
+      "command": "go",
+      "args": [
+        "run",
+        "./kubernetes-mcp",
+        "serve"
+      ],
+      "env": {}
+    }
+  }
+}
