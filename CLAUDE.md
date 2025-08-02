@@ -38,30 +38,6 @@ This is a Go workspace with two modules:
 
 The root contains `go.work` for workspace configuration.
 
-For detailed module implementation, architecture, and development patterns:
-- See `kubectl-x/CLAUDE.md` for kubectl-x specific details
-- See `kubernetes-mcp/` module for MCP server implementation
-
-### kubernetes-mcp Module
-The `kubernetes-mcp/` module provides a readonly MCP (Model Context Protocol) server that exposes kubectl functionality as tools for LLM integration.
-
-**Key Features:**
-- Readonly operations only (blocks secrets and sensitive resources)
-- CLI with `serve` subcommand for stdio mode MCP communication
-- Kubernetes tools: get, describe, logs, events, explain, version, cluster-info
-- Built with Cobra CLI framework and mcp-go library
-- Security-first design with access restrictions
-
-**Usage:**
-```bash
-# Build and run
-make build-kubernetes-mcp
-./kubernetes-mcp serve
-
-# Or run directly
-cd kubernetes-mcp && go run . serve
-```
-
 ## Workspace Development Notes
 
 ### Go Workspace Configuration
@@ -98,3 +74,19 @@ Modules are currently independent. If adding cross-module dependencies:
 - Use workspace-relative imports
 - Ensure proper module versioning
 - Test from workspace root with `go test ./...`
+
+## Code Style Guidelines
+
+### CLI Development Patterns
+
+#### Command Pattern
+Each CLI command follows a consistent architectural pattern:
+- `cmd/[command].go`: Cobra command definition that calls the corresponding function in `pkg/cli/[command]/`
+- `pkg/cli/[command]/[command].go`: Main function that sets up dependencies and calls the business logic
+- `pkg/cli/[command]/[command]er.go`: Interface and implementation containing the actual business logic
+
+This separation ensures:
+- Clean command definitions with minimal logic
+- Testable business logic separated from CLI framework
+- Consistent dependency injection patterns
+- Interface-based design for better testing and modularity
