@@ -4,7 +4,7 @@ import (
 	"context"
 	"errors"
 
-	"github.com/RRethy/kubectl-x/internal/kubernetes"
+	"github.com/RRethy/kubectl-x/pkg/kubernetes"
 )
 
 var _ kubernetes.Interface = &FakeClient{}

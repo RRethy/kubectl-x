@@ -5,7 +5,7 @@ import (
 	"context"
 	"testing"
 
-	kubeconfig "github.com/RRethy/kubectl-x/internal/kubeconfig/testing"
+	kubeconfig "github.com/RRethy/kubectl-x/pkg/kubeconfig/testing"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	"k8s.io/cli-runtime/pkg/genericiooptions"

@@ -11,10 +11,10 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/cli-runtime/pkg/genericiooptions"
 
-	fzf "github.com/RRethy/kubectl-x/internal/fzf/testing"
-	history "github.com/RRethy/kubectl-x/internal/history/testing"
-	kubeconfig "github.com/RRethy/kubectl-x/internal/kubeconfig/testing"
-	kubernetes "github.com/RRethy/kubectl-x/internal/kubernetes/testing"
+	fzf "github.com/RRethy/kubectl-x/pkg/fzf/testing"
+	history "github.com/RRethy/kubectl-x/pkg/history/testing"
+	kubeconfig "github.com/RRethy/kubectl-x/pkg/kubeconfig/testing"
+	kubernetes "github.com/RRethy/kubectl-x/pkg/kubernetes/testing"
 )
 
 func TestNser_Ns(t *testing.T) {

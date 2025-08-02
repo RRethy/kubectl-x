@@ -4,7 +4,7 @@ import (
 	"context"
 	"os"
 
-	"github.com/RRethy/kubectl-x/internal/kubeconfig"
+	"github.com/RRethy/kubectl-x/pkg/kubeconfig"
 	"k8s.io/cli-runtime/pkg/genericiooptions"
 )
 

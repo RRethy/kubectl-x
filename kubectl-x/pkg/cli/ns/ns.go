@@ -7,10 +7,10 @@ import (
 	"k8s.io/cli-runtime/pkg/genericclioptions"
 	"k8s.io/cli-runtime/pkg/genericiooptions"
 
-	"github.com/RRethy/kubectl-x/internal/fzf"
-	"github.com/RRethy/kubectl-x/internal/history"
-	"github.com/RRethy/kubectl-x/internal/kubeconfig"
-	"github.com/RRethy/kubectl-x/internal/kubernetes"
+	"github.com/RRethy/kubectl-x/pkg/fzf"
+	"github.com/RRethy/kubectl-x/pkg/history"
+	"github.com/RRethy/kubectl-x/pkg/kubeconfig"
+	"github.com/RRethy/kubectl-x/pkg/kubernetes"
 )
 
 func Ns(ctx context.Context, configFlags *genericclioptions.ConfigFlags, resourceBuilderFlags *genericclioptions.ResourceBuilderFlags, namespaceSubstring string, exactMatch bool) error {

@@ -3,7 +3,7 @@ package testing
 import (
 	"errors"
 
-	"github.com/RRethy/kubectl-x/internal/kubeconfig"
+	"github.com/RRethy/kubectl-x/pkg/kubeconfig"
 	"k8s.io/client-go/tools/clientcmd/api"
 )
 

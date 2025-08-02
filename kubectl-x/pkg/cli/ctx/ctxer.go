@@ -7,10 +7,10 @@ import (
 	"k8s.io/cli-runtime/pkg/genericiooptions"
 
 	"github.com/RRethy/kubectl-x/pkg/cli/ns"
-	"github.com/RRethy/kubectl-x/internal/fzf"
-	"github.com/RRethy/kubectl-x/internal/history"
-	"github.com/RRethy/kubectl-x/internal/kubeconfig"
-	"github.com/RRethy/kubectl-x/internal/kubernetes"
+	"github.com/RRethy/kubectl-x/pkg/fzf"
+	"github.com/RRethy/kubectl-x/pkg/history"
+	"github.com/RRethy/kubectl-x/pkg/kubeconfig"
+	"github.com/RRethy/kubectl-x/pkg/kubernetes"
 )
 
 type Ctxer struct {

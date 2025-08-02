@@ -4,10 +4,10 @@ import (
 	"context"
 	"os"
 
-	"github.com/RRethy/kubectl-x/internal/fzf"
-	"github.com/RRethy/kubectl-x/internal/history"
-	"github.com/RRethy/kubectl-x/internal/kubeconfig"
-	"github.com/RRethy/kubectl-x/internal/kubernetes"
+	"github.com/RRethy/kubectl-x/pkg/fzf"
+	"github.com/RRethy/kubectl-x/pkg/history"
+	"github.com/RRethy/kubectl-x/pkg/kubeconfig"
+	"github.com/RRethy/kubectl-x/pkg/kubernetes"
 	"k8s.io/cli-runtime/pkg/genericclioptions"
 	"k8s.io/cli-runtime/pkg/genericiooptions"
 )
