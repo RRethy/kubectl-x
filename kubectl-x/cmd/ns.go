@@ -5,7 +5,7 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/RRethy/kubectl-x/internal/cmd/ns"
+	"github.com/RRethy/kubectl-x/pkg/cli/ns"
 )
 
 var nsCmd = &cobra.Command{

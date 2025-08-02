@@ -1,18 +1,19 @@
-package ctx
+package ns
 
 import (
 	"context"
 	"os"
 
+	"k8s.io/cli-runtime/pkg/genericclioptions"
+	"k8s.io/cli-runtime/pkg/genericiooptions"
+
 	"github.com/RRethy/kubectl-x/internal/fzf"
 	"github.com/RRethy/kubectl-x/internal/history"
 	"github.com/RRethy/kubectl-x/internal/kubeconfig"
 	"github.com/RRethy/kubectl-x/internal/kubernetes"
-	"k8s.io/cli-runtime/pkg/genericclioptions"
-	"k8s.io/cli-runtime/pkg/genericiooptions"
 )
 
-func Ctx(ctx context.Context, configFlags *genericclioptions.ConfigFlags, resourceBuilderFlags *genericclioptions.ResourceBuilderFlags, contextSubstring, namespaceSubstring string, exactMatch bool) error {
+func Ns(ctx context.Context, configFlags *genericclioptions.ConfigFlags, resourceBuilderFlags *genericclioptions.ResourceBuilderFlags, namespaceSubstring string, exactMatch bool) error {
 	kubeConfig, err := kubeconfig.NewKubeConfig()
 	if err != nil {
 		return err
@@ -24,5 +25,6 @@ func Ctx(ctx context.Context, configFlags *genericclioptions.ConfigFlags, resour
 	if err != nil {
 		return err
 	}
-	return Ctxer{kubeConfig, ioStreams, k8sClient, fzf, history}.Ctx(ctx, contextSubstring, namespaceSubstring)
+	nser := NewNser(kubeConfig, ioStreams, k8sClient, fzf, history)
+	return nser.Ns(ctx, namespaceSubstring)
 }

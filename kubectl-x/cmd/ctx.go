@@ -5,7 +5,7 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/RRethy/kubectl-x/internal/cmd/ctx"
+	"github.com/RRethy/kubectl-x/pkg/cli/ctx"
 )
 
 var ctxCmd = &cobra.Command{

@@ -14,5 +14,6 @@ func Cur(ctx context.Context) error {
 		return err
 	}
 	ioStreams := genericiooptions.IOStreams{In: os.Stdin, Out: os.Stdout, ErrOut: os.Stderr}
-	return Curer{kubeConfig, ioStreams}.Cur(ctx)
+	curer := NewCurer(kubeConfig, ioStreams)
+	return curer.Cur(ctx)
 }

@@ -13,6 +13,13 @@ type Curer struct {
 	IoStreams  genericiooptions.IOStreams
 }
 
+func NewCurer(kubeConfig kubeconfig.Interface, ioStreams genericiooptions.IOStreams) Curer {
+	return Curer{
+		KubeConfig: kubeConfig,
+		IoStreams:  ioStreams,
+	}
+}
+
 func (c Curer) Cur(ctx context.Context) error {
 	currentContext, err := c.KubeConfig.GetCurrentContext()
 	if err != nil {

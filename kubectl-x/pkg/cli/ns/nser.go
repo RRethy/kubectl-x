@@ -21,6 +21,16 @@ type Nser struct {
 	History    history.Interface
 }
 
+func NewNser(kubeConfig kubeconfig.Interface, ioStreams genericiooptions.IOStreams, k8sClient kubernetes.Interface, fzf fzf.Interface, history history.Interface) Nser {
+	return Nser{
+		KubeConfig: kubeConfig,
+		IoStreams:  ioStreams,
+		K8sClient:  k8sClient,
+		Fzf:        fzf,
+		History:    history,
+	}
+}
+
 func (n Nser) Ns(ctx context.Context, namespace string) error {
 	var selectedNamespace string
 	var err error

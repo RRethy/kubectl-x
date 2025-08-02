@@ -6,7 +6,7 @@ import (
 
 	"k8s.io/cli-runtime/pkg/genericiooptions"
 
-	"github.com/RRethy/kubectl-x/internal/cmd/ns"
+	"github.com/RRethy/kubectl-x/pkg/cli/ns"
 	"github.com/RRethy/kubectl-x/internal/fzf"
 	"github.com/RRethy/kubectl-x/internal/history"
 	"github.com/RRethy/kubectl-x/internal/kubeconfig"
@@ -19,6 +19,16 @@ type Ctxer struct {
 	K8sClient  kubernetes.Interface
 	Fzf        fzf.Interface
 	History    history.Interface
+}
+
+func NewCtxer(kubeConfig kubeconfig.Interface, ioStreams genericiooptions.IOStreams, k8sClient kubernetes.Interface, fzf fzf.Interface, history history.Interface) Ctxer {
+	return Ctxer{
+		KubeConfig: kubeConfig,
+		IoStreams:  ioStreams,
+		K8sClient:  k8sClient,
+		Fzf:        fzf,
+		History:    history,
+	}
 }
 
 func (c Ctxer) Ctx(ctx context.Context, contextSubstring, namespaceSubstring string) error {
@@ -62,7 +72,8 @@ func (c Ctxer) Ctx(ctx context.Context, contextSubstring, namespaceSubstring str
 	fmt.Fprintf(c.IoStreams.Out, "Switched to context \"%s\".\n", selectedContext)
 
 	if selectedNamespace == "" {
-		return ns.Nser{KubeConfig: c.KubeConfig, IoStreams: c.IoStreams, K8sClient: c.K8sClient, Fzf: c.Fzf, History: c.History}.Ns(ctx, namespaceSubstring)
+		nser := ns.NewNser(c.KubeConfig, c.IoStreams, c.K8sClient, c.Fzf, c.History)
+		return nser.Ns(ctx, namespaceSubstring)
 	}
 
 	err = c.KubeConfig.SetNamespace(selectedNamespace)

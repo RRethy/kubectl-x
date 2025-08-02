@@ -51,7 +51,7 @@ data:
 			tempDir, err := os.MkdirTemp("", "kubectl-x-testing")
 			require.NoError(t, err)
 			historyPath := filepath.Join(tempDir, "history.yaml")
-			os.WriteFile(historyPath, []byte(test.contents), 0o644)
+			require.NoError(t, os.WriteFile(historyPath, []byte(test.contents), 0o644))
 			defer os.RemoveAll(tempDir)
 
 			h, err := NewHistory(NewConfig(WithHistoryPath(historyPath)))
