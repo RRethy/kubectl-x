@@ -1,4 +1,4 @@
-.PHONY: test lint lint-fix build build-kubectl-x build-kubernetes-mcp fmt vet help
+.PHONY: test lint lint-fix build build-kubectl-x build-kubernetes-mcp fmt vet tidy help
 
 # Default target
 help:
@@ -11,6 +11,7 @@ help:
 	@echo "  build-kubernetes-mcp - Build the kubernetes-mcp binary"
 	@echo "  fmt                  - Format Go code"
 	@echo "  vet                  - Run go vet"
+	@echo "  tidy                 - Run go mod tidy"
 
 # Run all tests
 test:
@@ -47,3 +48,9 @@ fmt:
 vet:
 	cd kubectl-x && go vet ./...
 	cd kubernetes-mcp && go vet ./...
+
+# Run go mod tidy
+tidy:
+	cd kubectl-x && go mod tidy
+	cd kubernetes-mcp && go mod tidy
+	go work sync
