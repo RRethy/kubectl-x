@@ -1,3 +1,6 @@
 go 1.24.4
 
-use ./kubectl-x
+use (
+	./kubectl-x
+	./kubernetes-mcp
+)
