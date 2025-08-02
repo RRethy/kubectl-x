@@ -4,22 +4,23 @@ This file provides workspace-level guidance to Claude Code (claude.ai/code) when
 
 **IMPORTANT**: When making workspace-level changes (new modules, workspace structure, build processes), update this file. For module-specific changes, update `kubectl-x/CLAUDE.md`.
 
-## Project Overview
+## Development Commands
 
-kubectl-x is a kubectl plugin that provides convenient context and namespace switching utilities for Kubernetes. It offers interactive fuzzy search capabilities and maintains command history for quick navigation.
+Use the provided Makefile for common development tasks:
+```bash
+make build     # Build the kubectl-x binary
+make test      # Run all tests
+make lint      # Run golangci-lint
+make lint-fix  # Run golangci-lint with auto-fix
+make fmt       # Format Go code
+make vet       # Run go vet
+make help      # Show all available targets
+```
 
-## Workspace Commands
-
-### Workspace Management
+### Workspace-Specific Commands
 ```bash
 # Sync workspace dependencies
 go work sync
-
-# Build from workspace root
-go build ./kubectl-x
-
-# Test all modules in workspace
-go test ./...
 
 # Install from source
 go install github.com/RRethy/kubectl-x@latest

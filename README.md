@@ -1,6 +1,6 @@
 # kubectl-x
 
-Kubectl plugin with various helpers I find useful.
+Kubectl plugin that provides convenient context and namespace switching utilities for Kubernetes. Features interactive fuzzy search capabilities and maintains command history for quick navigation.
 
 ## Quickstart
 
@@ -26,7 +26,7 @@ Available Commands:
 ### `kubectl x ctx`
 
 ```
-Switch context.
+Switch context with interactive fuzzy search.
 
 Usage:
   kubectl x ctx [context] [namespace]
@@ -34,18 +34,20 @@ Usage:
 Args:
   context    Partial match to filter contexts on.
              "-" to switch to the previous ctx/ns.
+             If no args, opens interactive fuzzy finder.
   namespace  Partial match to filter namespaces on.
 
 Example:
-  kubectl-pi ctx
-  kubectl-pi ctx my-context
-  kubectl-pi ctx my-context my-namespace
+  kubectl x ctx                        # Interactive context selection
+  kubectl x ctx my-context             # Switch to context with partial match
+  kubectl x ctx my-context my-namespace # Switch context and namespace
+  kubectl x ctx -                      # Switch to previous context/namespace
 ```
 
 ### `kubectl x ns`
 
 ```
-Switch namespace.
+Switch namespace with interactive fuzzy search.
 
 Usage:
   kubectl x ns [namespace]
@@ -53,10 +55,12 @@ Usage:
 Args:
   namespace  Partial match to filter namespaces on.
              "-" to switch to the previous namespace.
+             If no args, opens interactive fuzzy finder.
 
 Example:
-  kubectl-pi ns
-  kubectl-pi ns my-namespace
+  kubectl x ns                # Interactive namespace selection
+  kubectl x ns my-namespace   # Switch to namespace with partial match
+  kubectl x ns -              # Switch to previous namespace
 ```
 
 ### `kubectl x cur`

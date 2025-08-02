@@ -2,7 +2,7 @@
 
 This file provides module-specific guidance for Claude Code when working within the kubectl-x module directory.
 
-**IMPORTANT**: When making changes to module-specific aspects (dependencies, commands, internal packages), update this file. For workspace-level changes, update the root `CLAUDE.md`.
+**IMPORTANT**: When making changes to module-specific aspects (dependencies, commands, internal packages), update this file. For workspace-level changes, update the root `CLAUDE.md`. Also keep `kubectl-x/README.md` up to date with user-facing changes.
 
 ## Usage Examples
 ```bash
@@ -150,3 +150,23 @@ k8s.io/utils v0.0.0-20240502163921-fe8a2dddb1d0 // Kubernetes utilities
 ## Code Generation
 - `internal/cmd/generate/generate.go` - Placeholder for potential code generation
 - Currently unused but reserved for future enhancements
+
+## Code Style Guidelines
+
+### Comments
+- **DO NOT add comments unless explicitly asked by the user**
+- Code should be self-documenting through clear naming and structure
+- Never add comments that simply restate what the code does
+- Only add comments when the user specifically requests them
+
+### Error Handling
+- When wrapping errors, don't repeat "error" or "failed" in the message
+- Use descriptive context without redundant error terminology
+- **Good**: `fmt.Errorf("getting kubeconfig: %w", err)`
+- **Bad**: `fmt.Errorf("failed to get kubeconfig: %w", err)` or `fmt.Errorf("kubeconfig error: %w", err)`
+
+### Commit Messages
+- **NEVER add co-author credits or Claude Code attribution to commit messages**
+- Keep commit messages clean and focused on the actual changes
+- Follow conventional commit format when appropriate
+- Do not include any AI assistance acknowledgments
