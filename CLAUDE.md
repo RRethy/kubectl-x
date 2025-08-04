@@ -2,21 +2,23 @@
 
 This file provides workspace-level guidance to Claude Code (claude.ai/code) when working with this repository.
 
-**IMPORTANT**: When making workspace-level changes (new modules, workspace structure, build processes), update this file. For module-specific changes, update `kubectl-x/CLAUDE.md`.
+**IMPORTANT**: When making workspace-level changes (new modules, workspace structure, build processes), update this file. For module-specific changes, update the module's CLAUDE.md file.
 
 ## Development Commands
 
 Use the provided Makefile for common development tasks:
 ```bash
-make build                - Build all binaries
-make build-kubectl-x      - Build the kubectl-x binary
-make build-kubernetes-mcp - Build the kubernetes-mcp binary
-make test                 - Run all tests
-make lint                 - Run golangci-lint
-make lint-fix             - Run golangci-lint with auto-fix
-make fmt                  - Format Go code
-make vet                  - Run go vet
-make help                 - Show all available targets
+make build                 - Build all binaries
+make build-kubectl-x       - Build the kubectl-x binary
+make build-kubernetes-mcp  - Build the kubernetes-mcp binary
+make build-kustomizelite   - Build the kustomizelite binary
+make test                  - Run all tests
+make lint                  - Run golangci-lint
+make lint-fix              - Run golangci-lint with auto-fix
+make fmt                   - Format Go code
+make vet                   - Run go vet
+make tidy                  - Run go mod tidy
+make help                  - Show all available targets
 ```
 
 ### Workspace-Specific Commands
@@ -27,14 +29,16 @@ go work sync
 # Install from source
 go install github.com/RRethy/utils/kubectl-x@latest           # kubectl-x CLI
 go install github.com/RRethy/utils/kubernetes-mcp@latest       # kubernetes-mcp CLI
+go install github.com/RRethy/utils/kustomizelite@latest        # kustomizelite CLI
 ```
 
 ## Architecture
 
 ### Go Workspace Structure
-This is a Go workspace with two modules:
+This is a Go workspace with three modules:
 - `kubectl-x/` - Kubernetes context and namespace switching CLI
 - `kubernetes-mcp/` - Readonly MCP (Model Context Protocol) server for Kubernetes
+- `kustomizelite/` - Lightweight Kustomize CLI tool
 
 The root contains `go.work` for workspace configuration.
 
@@ -42,9 +46,9 @@ The root contains `go.work` for workspace configuration.
 
 ### Go Workspace Configuration
 - Uses Go 1.24.4
-- Multi-module workspace with `kubectl-x/` and `kubernetes-mcp/` modules
+- Multi-module workspace with `kubectl-x/`, `kubernetes-mcp/`, and `kustomizelite/` modules
 - Use `go work sync` to synchronize dependencies across workspace
-- Both modules include golangci-lint as tool dependency
+- All modules include golangci-lint as tool dependency
 
 ### Module Structure
 ```
@@ -56,9 +60,15 @@ The root contains `go.work` for workspace configuration.
 │   ├── cmd/            # CLI commands
 │   ├── internal/       # Internal packages
 │   └── main.go
-└── kubernetes-mcp/     # MCP server for Kubernetes
-    ├── cmd/            # CLI commands (root, serve)
-    ├── pkg/mcp/        # MCP server implementation
+├── kubernetes-mcp/     # MCP server for Kubernetes
+│   ├── cmd/            # CLI commands (root, serve)
+│   ├── pkg/mcp/        # MCP server implementation
+│   └── main.go
+└── kustomizelite/      # Lightweight Kustomize CLI
+    ├── CLAUDE.md       # Module-specific documentation
+    ├── api/v1/         # Data structures
+    ├── cmd/            # CLI commands
+    ├── pkg/            # Business logic packages
     └── main.go
 ```
 
