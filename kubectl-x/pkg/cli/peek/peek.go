@@ -8,12 +8,12 @@ import (
 	"k8s.io/cli-runtime/pkg/genericclioptions"
 	kexec "k8s.io/utils/exec"
 
-	xcontext "github.com/RRethy/kubectl-x/pkg/context"
-	"github.com/RRethy/kubectl-x/pkg/fzf"
-	"github.com/RRethy/kubectl-x/pkg/kubeconfig"
-	"github.com/RRethy/kubectl-x/pkg/kubernetes"
-	"github.com/RRethy/kubectl-x/pkg/namespace"
-	"github.com/RRethy/kubectl-x/pkg/resolver"
+	xcontext "github.com/RRethy/kube-tools/kubectl-x/pkg/context"
+	"github.com/RRethy/kube-tools/kubectl-x/pkg/fzf"
+	"github.com/RRethy/kube-tools/kubectl-x/pkg/kubeconfig"
+	"github.com/RRethy/kube-tools/kubectl-x/pkg/kubernetes"
+	"github.com/RRethy/kube-tools/kubectl-x/pkg/namespace"
+	"github.com/RRethy/kube-tools/kubectl-x/pkg/resolver"
 )
 
 // Peek executes an interactive preview of logs or describe output

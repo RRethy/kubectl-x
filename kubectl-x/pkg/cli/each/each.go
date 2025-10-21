@@ -7,10 +7,10 @@ import (
 
 	"k8s.io/cli-runtime/pkg/genericclioptions"
 
-	xcontext "github.com/RRethy/kubectl-x/pkg/context"
-	"github.com/RRethy/kubectl-x/pkg/fzf"
-	"github.com/RRethy/kubectl-x/pkg/kubeconfig"
-	"github.com/RRethy/kubectl-x/pkg/namespace"
+	xcontext "github.com/RRethy/kube-tools/kubectl-x/pkg/context"
+	"github.com/RRethy/kube-tools/kubectl-x/pkg/fzf"
+	"github.com/RRethy/kube-tools/kubectl-x/pkg/kubeconfig"
+	"github.com/RRethy/kube-tools/kubectl-x/pkg/namespace"
 )
 
 // Each executes kubectl commands across multiple contexts matching the given pattern

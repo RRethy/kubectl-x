@@ -7,7 +7,7 @@ import (
 
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
-	"github.com/RRethy/kubectl-x/pkg/kubernetes"
+	"github.com/RRethy/kube-tools/kubectl-x/pkg/kubernetes"
 )
 
 var _ kubernetes.Interface = &FakeClient{}

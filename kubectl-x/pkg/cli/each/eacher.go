@@ -17,8 +17,8 @@ import (
 	"k8s.io/klog/v2"
 	"sigs.k8s.io/yaml"
 
-	"github.com/RRethy/kubectl-x/pkg/fzf"
-	"github.com/RRethy/kubectl-x/pkg/kubeconfig"
+	"github.com/RRethy/kube-tools/kubectl-x/pkg/fzf"
+	"github.com/RRethy/kube-tools/kubectl-x/pkg/kubeconfig"
 )
 
 // Eacher executes kubectl commands across multiple contexts

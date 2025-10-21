@@ -15,10 +15,10 @@ import (
 	kexec "k8s.io/utils/exec"
 	testingexec "k8s.io/utils/exec/testing"
 
-	"github.com/RRethy/kubectl-x/pkg/fzf"
-	fzftesting "github.com/RRethy/kubectl-x/pkg/fzf/testing"
-	k8stesting "github.com/RRethy/kubectl-x/pkg/kubernetes/testing"
-	resolvertesting "github.com/RRethy/kubectl-x/pkg/resolver/testing"
+	"github.com/RRethy/kube-tools/kubectl-x/pkg/fzf"
+	fzftesting "github.com/RRethy/kube-tools/kubectl-x/pkg/fzf/testing"
+	k8stesting "github.com/RRethy/kube-tools/kubectl-x/pkg/kubernetes/testing"
+	resolvertesting "github.com/RRethy/kube-tools/kubectl-x/pkg/resolver/testing"
 )
 
 func TestPeeker_Peek(t *testing.T) {

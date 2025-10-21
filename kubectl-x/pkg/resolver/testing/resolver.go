@@ -7,8 +7,8 @@ import (
 	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
-	"github.com/RRethy/kubectl-x/pkg/fzf"
-	"github.com/RRethy/kubectl-x/pkg/resolver"
+	"github.com/RRethy/kube-tools/kubectl-x/pkg/fzf"
+	"github.com/RRethy/kube-tools/kubectl-x/pkg/resolver"
 )
 
 var _ resolver.Resolver = &FakeResolver{}

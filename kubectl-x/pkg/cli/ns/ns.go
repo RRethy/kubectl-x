@@ -7,10 +7,10 @@ import (
 	"k8s.io/cli-runtime/pkg/genericclioptions"
 	"k8s.io/cli-runtime/pkg/genericiooptions"
 
-	"github.com/RRethy/kubectl-x/pkg/fzf"
-	"github.com/RRethy/kubectl-x/pkg/history"
-	"github.com/RRethy/kubectl-x/pkg/kubeconfig"
-	"github.com/RRethy/kubectl-x/pkg/kubernetes"
+	"github.com/RRethy/kube-tools/kubectl-x/pkg/fzf"
+	"github.com/RRethy/kube-tools/kubectl-x/pkg/history"
+	"github.com/RRethy/kube-tools/kubectl-x/pkg/kubeconfig"
+	"github.com/RRethy/kube-tools/kubectl-x/pkg/kubernetes"
 )
 
 // Ns switches Kubernetes namespace based on the provided substring

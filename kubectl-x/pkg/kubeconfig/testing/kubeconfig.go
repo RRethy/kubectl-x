@@ -5,7 +5,7 @@ import (
 	"errors"
 	"os"
 
-	"github.com/RRethy/kubectl-x/pkg/kubeconfig"
+	"github.com/RRethy/kube-tools/kubectl-x/pkg/kubeconfig"
 	"k8s.io/client-go/tools/clientcmd/api"
 )
 
@@ -95,7 +95,7 @@ contexts:
 	for name := range fake.contexts {
 		content = append(content, []byte("- name: "+name+"\n")...)
 	}
-	return os.WriteFile(path, content, 0644)
+	return os.WriteFile(path, content, 0o644)
 }
 
 // WithKubeconfigPath sets the kubeconfig path for testing

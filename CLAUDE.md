@@ -29,7 +29,7 @@ make help                  - Show all available targets
 go work sync
 
 # Install from source
-go install github.com/RRethy/kubectl-x@latest                    # kubectl-x CLI
+go install github.com/RRethy/kube-tools/kubectl-x@latest                    # kubectl-x CLI
 go install github.com/RRethy/kube-tools/kubernetes-mcp@latest     # kubernetes-mcp CLI
 go install github.com/RRethy/kube-tools/celery@latest             # celery CLI
 go install github.com/RRethy/kube-tools/k2@latest         # k2 CLI

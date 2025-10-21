@@ -4,7 +4,7 @@ package testing
 import (
 	"errors"
 
-	"github.com/RRethy/kubectl-x/pkg/history"
+	"github.com/RRethy/kube-tools/kubectl-x/pkg/history"
 )
 
 var _ history.Interface = &FakeHistory{}

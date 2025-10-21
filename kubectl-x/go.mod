@@ -1,4 +1,4 @@
-module github.com/RRethy/kubectl-x
+module github.com/RRethy/kube-tools/kubectl-x
 
 go 1.24.4
 

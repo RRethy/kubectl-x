@@ -4,7 +4,7 @@ package namespace
 import (
 	"k8s.io/cli-runtime/pkg/genericclioptions"
 
-	"github.com/RRethy/kubectl-x/pkg/kubeconfig"
+	"github.com/RRethy/kube-tools/kubectl-x/pkg/kubeconfig"
 )
 
 // Resolver defines methods for resolving Kubernetes namespaces

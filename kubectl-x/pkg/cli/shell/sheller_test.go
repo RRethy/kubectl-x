@@ -14,7 +14,7 @@ import (
 	kexec "k8s.io/utils/exec"
 	fakeexec "k8s.io/utils/exec/testing"
 
-	resolvertesting "github.com/RRethy/kubectl-x/pkg/resolver/testing"
+	resolvertesting "github.com/RRethy/kube-tools/kubectl-x/pkg/resolver/testing"
 )
 
 func TestSheller_Shell_ErrorHandling(t *testing.T) {

@@ -6,7 +6,7 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/RRethy/kubectl-x/pkg/xdg"
+	"github.com/RRethy/kube-tools/kubectl-x/pkg/xdg"
 	"github.com/goccy/go-yaml"
 	"k8s.io/klog/v2"
 )
@@ -15,9 +15,7 @@ const (
 	maxHistoryItems = 2
 )
 
-var (
-	_ Interface = &History{}
-)
+var _ Interface = &History{}
 
 // Interface defines methods for managing command history
 type Interface interface {

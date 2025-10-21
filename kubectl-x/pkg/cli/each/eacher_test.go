@@ -12,8 +12,8 @@ import (
 	"k8s.io/cli-runtime/pkg/genericclioptions"
 	"k8s.io/client-go/tools/clientcmd/api"
 
-	fzftesting "github.com/RRethy/kubectl-x/pkg/fzf/testing"
-	kubeconfigtesting "github.com/RRethy/kubectl-x/pkg/kubeconfig/testing"
+	fzftesting "github.com/RRethy/kube-tools/kubectl-x/pkg/fzf/testing"
+	kubeconfigtesting "github.com/RRethy/kube-tools/kubectl-x/pkg/kubeconfig/testing"
 )
 
 func TestEacher_Each(t *testing.T) {

@@ -34,7 +34,7 @@ cp kubectl-x /usr/local/bin/kubectl-x
 ### Using go install
 
 ```bash
-go install github.com/RRethy/kubectl-x@latest
+go install github.com/RRethy/kube-tools/kubectl-x@latest
 ```
 
 ## Usage

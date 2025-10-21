@@ -12,9 +12,9 @@ import (
 	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
-	"github.com/RRethy/kubectl-x/pkg/fzf"
-	fzftesting "github.com/RRethy/kubectl-x/pkg/fzf/testing"
-	k8stesting "github.com/RRethy/kubectl-x/pkg/kubernetes/testing"
+	"github.com/RRethy/kube-tools/kubectl-x/pkg/fzf"
+	fzftesting "github.com/RRethy/kube-tools/kubectl-x/pkg/fzf/testing"
+	k8stesting "github.com/RRethy/kube-tools/kubectl-x/pkg/kubernetes/testing"
 )
 
 func TestResolveTarget(t *testing.T) {

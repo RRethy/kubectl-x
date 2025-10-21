@@ -6,7 +6,7 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/RRethy/kubectl-x/pkg/cli/each"
+	"github.com/RRethy/kube-tools/kubectl-x/pkg/cli/each"
 )
 
 var (

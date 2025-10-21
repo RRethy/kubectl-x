@@ -9,10 +9,10 @@ import (
 	"k8s.io/cli-runtime/pkg/genericiooptions"
 	"k8s.io/klog/v2"
 
-	"github.com/RRethy/kubectl-x/pkg/fzf"
-	"github.com/RRethy/kubectl-x/pkg/history"
-	"github.com/RRethy/kubectl-x/pkg/kubeconfig"
-	"github.com/RRethy/kubectl-x/pkg/kubernetes"
+	"github.com/RRethy/kube-tools/kubectl-x/pkg/fzf"
+	"github.com/RRethy/kube-tools/kubectl-x/pkg/history"
+	"github.com/RRethy/kube-tools/kubectl-x/pkg/kubeconfig"
+	"github.com/RRethy/kube-tools/kubectl-x/pkg/kubernetes"
 )
 
 // Nser handles Kubernetes namespace switching operations

@@ -5,7 +5,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/RRethy/kubectl-x/pkg/kubeconfig"
+	"github.com/RRethy/kube-tools/kubectl-x/pkg/kubeconfig"
 	"github.com/fatih/color"
 	"k8s.io/cli-runtime/pkg/genericiooptions"
 	"k8s.io/klog/v2"

@@ -13,12 +13,12 @@ import (
 	"k8s.io/cli-runtime/pkg/genericiooptions"
 	"k8s.io/client-go/tools/clientcmd/api"
 
-	fzftesting "github.com/RRethy/kubectl-x/pkg/fzf/testing"
-	pkghistory "github.com/RRethy/kubectl-x/pkg/history"
-	historytesting "github.com/RRethy/kubectl-x/pkg/history/testing"
-	pkgkubeconfig "github.com/RRethy/kubectl-x/pkg/kubeconfig"
-	kubeconfigtesting "github.com/RRethy/kubectl-x/pkg/kubeconfig/testing"
-	kubernetestesting "github.com/RRethy/kubectl-x/pkg/kubernetes/testing"
+	fzftesting "github.com/RRethy/kube-tools/kubectl-x/pkg/fzf/testing"
+	pkghistory "github.com/RRethy/kube-tools/kubectl-x/pkg/history"
+	historytesting "github.com/RRethy/kube-tools/kubectl-x/pkg/history/testing"
+	pkgkubeconfig "github.com/RRethy/kube-tools/kubectl-x/pkg/kubeconfig"
+	kubeconfigtesting "github.com/RRethy/kube-tools/kubectl-x/pkg/kubeconfig/testing"
+	kubernetestesting "github.com/RRethy/kube-tools/kubectl-x/pkg/kubernetes/testing"
 )
 
 func TestNewCtxer(t *testing.T) {

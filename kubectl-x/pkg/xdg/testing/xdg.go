@@ -4,7 +4,7 @@ package testing
 import (
 	"errors"
 
-	"github.com/RRethy/kubectl-x/pkg/xdg"
+	"github.com/RRethy/kube-tools/kubectl-x/pkg/xdg"
 )
 
 var _ xdg.Interface = &FakeXDG{}

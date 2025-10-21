@@ -14,8 +14,8 @@ import (
 	"testing"
 	"time"
 
-	kubeconfigtesting "github.com/RRethy/kubectl-x/pkg/kubeconfig/testing"
-	xdgtesting "github.com/RRethy/kubectl-x/pkg/xdg/testing"
+	kubeconfigtesting "github.com/RRethy/kube-tools/kubectl-x/pkg/kubeconfig/testing"
+	xdgtesting "github.com/RRethy/kube-tools/kubectl-x/pkg/xdg/testing"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	"k8s.io/cli-runtime/pkg/genericclioptions"
@@ -302,7 +302,7 @@ func TestCopier_Copy(t *testing.T) {
 		defer func() { _ = os.RemoveAll(xdgDataHome) }()
 
 		conflictingFile := filepath.Join(xdgDataHome, "kubectl-x")
-		err = os.WriteFile(conflictingFile, []byte("conflict"), 0644)
+		err = os.WriteFile(conflictingFile, []byte("conflict"), 0o644)
 		require.NoError(t, err)
 
 		var outputBuf bytes.Buffer
@@ -338,7 +338,7 @@ func TestCopier_Copy(t *testing.T) {
 		defer func() { _ = os.RemoveAll(xdgDataHome) }()
 
 		kubectlXDir := filepath.Join(xdgDataHome, "kubectl-x")
-		err = os.MkdirAll(kubectlXDir, 0555)
+		err = os.MkdirAll(kubectlXDir, 0o555)
 		require.NoError(t, err)
 
 		var outputBuf bytes.Buffer
@@ -887,11 +887,11 @@ func TestCopier_Copy_FilesystemEdgeCases(t *testing.T) {
 
 		// Pre-create kubectl-x directory with existing files
 		kubectlXDir := filepath.Join(xdgDataHome, "kubectl-x")
-		err = os.MkdirAll(kubectlXDir, 0755)
+		err = os.MkdirAll(kubectlXDir, 0o755)
 		require.NoError(t, err)
 
 		existingFile := filepath.Join(kubectlXDir, "existing-file.txt")
-		err = os.WriteFile(existingFile, []byte("existing content"), 0644)
+		err = os.WriteFile(existingFile, []byte("existing content"), 0o644)
 		require.NoError(t, err)
 
 		var outputBuf bytes.Buffer

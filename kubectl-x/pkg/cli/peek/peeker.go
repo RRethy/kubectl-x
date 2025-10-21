@@ -8,9 +8,9 @@ import (
 	"k8s.io/cli-runtime/pkg/genericclioptions"
 	kexec "k8s.io/utils/exec"
 
-	"github.com/RRethy/kubectl-x/pkg/fzf"
-	"github.com/RRethy/kubectl-x/pkg/kubernetes"
-	"github.com/RRethy/kubectl-x/pkg/resolver"
+	"github.com/RRethy/kube-tools/kubectl-x/pkg/fzf"
+	"github.com/RRethy/kube-tools/kubectl-x/pkg/kubernetes"
+	"github.com/RRethy/kube-tools/kubectl-x/pkg/resolver"
 )
 
 // Peeker handles interactive preview of Kubernetes resources

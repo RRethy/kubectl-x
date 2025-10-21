@@ -5,7 +5,7 @@ import (
 	"context"
 	"errors"
 
-	"github.com/RRethy/kubectl-x/pkg/fzf"
+	"github.com/RRethy/kube-tools/kubectl-x/pkg/fzf"
 )
 
 var _ fzf.Interface = &FakeFzf{}
