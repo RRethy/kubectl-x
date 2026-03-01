@@ -27,6 +27,10 @@ type Interface interface {
 	ListInNamespace(ctx context.Context, resourceType, namespace string) ([]any, error)
 	// GetResource retrieves a specific resource by kind, name, and namespace using dynamic client
 	GetResource(ctx context.Context, kind, name, namespace string) (metav1.Object, error)
+	// GetResourceBuilderFlags returns the ResourceBuilderFlags used to initialize the client
+	GetResourceBuilderFlags() *genericclioptions.ResourceBuilderFlags
+	// WithContext returns a new Interface targeting the specified context
+	WithContext(context string) Interface
 }
 
 // Client implements Kubernetes resource operations
@@ -131,6 +135,19 @@ func (c *Client) list(resourceType, namespace string) ([]any, error) {
 		res = append(res, info.Object)
 	}
 	return res, nil
+}
+
+func (c *Client) GetResourceBuilderFlags() *genericclioptions.ResourceBuilderFlags {
+	return c.resourceBuilderFlags
+}
+
+func (c *Client) WithContext(context string) Interface {
+	newConfigFlags := genericclioptions.NewConfigFlags(true)
+	if c.configFlags != nil && c.configFlags.KubeConfig != nil {
+		newConfigFlags.KubeConfig = c.configFlags.KubeConfig
+	}
+	newConfigFlags.Context = &context
+	return NewClient(newConfigFlags, c.resourceBuilderFlags)
 }
 
 // GetResource retrieves a specific resource by kind, name, and namespace using dynamic client

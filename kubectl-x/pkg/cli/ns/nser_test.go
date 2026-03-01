@@ -240,7 +240,7 @@ func TestNser_Ns(t *testing.T) {
 			verifyFzfConfig: func(t *testing.T, fzf *fzftesting.FakeFzf) {
 				// Note: The prompt says "Select context" but should probably say "Select namespace"
 				// This is a bug in the original code
-				assert.Equal(t, "Select context", fzf.LastConfig.Prompt)
+				assert.Equal(t, "Select namespace", fzf.LastConfig.Prompt)
 				assert.Equal(t, "def", fzf.LastConfig.Query)
 				assert.True(t, fzf.LastConfig.Sorted)
 				assert.False(t, fzf.LastConfig.Multi)

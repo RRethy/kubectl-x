@@ -92,7 +92,7 @@ func (c Ctxer) Ctx(ctx context.Context, contextSubstring, namespaceSubstring str
 
 	if selectedNamespace == "" {
 		klog.V(4).Info("No namespace selected from history, prompting user for namespace selection")
-		nser := ns.NewNser(c.KubeConfig, c.IoStreams, c.K8sClient, c.Fzf, c.History)
+		nser := ns.NewNser(c.KubeConfig, c.IoStreams, c.K8sClient.WithContext(selectedContext), c.Fzf, c.History)
 		return nser.Ns(ctx, namespaceSubstring, exactMatch)
 	}
 

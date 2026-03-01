@@ -6,6 +6,7 @@ import (
 	"os"
 
 	"github.com/RRethy/kube-tools/kubectl-x/pkg/kubeconfig"
+	"k8s.io/cli-runtime/pkg/genericclioptions"
 	"k8s.io/client-go/tools/clientcmd/api"
 )
 
@@ -108,4 +109,8 @@ func (fake *FakeKubeConfig) WithKubeconfigPath(path string) *FakeKubeConfig {
 func (fake *FakeKubeConfig) WithWriteError(err error) *FakeKubeConfig {
 	fake.writeError = err
 	return fake
+}
+
+func (fake *FakeKubeConfig) GetConfigFlags() *genericclioptions.ConfigFlags {
+	return nil
 }

@@ -31,12 +31,15 @@ type Interface interface {
 	GetKubeconfigPath() string
 	// WriteToFile writes the kubeconfig to a specific file path
 	WriteToFile(path string) error
+	// GetConfigFlags returns the ConfigFlags used to initialize the kubeconfig
+	GetConfigFlags() *genericclioptions.ConfigFlags
 }
 
 // KubeConfig provides kubeconfig file operations
 type KubeConfig struct {
 	configAccess clientcmd.ConfigAccess
 	APIConfig    *api.Config
+	configFlags  *genericclioptions.ConfigFlags
 }
 
 // Option configures a KubeConfig
@@ -45,6 +48,7 @@ type Option func(*KubeConfig)
 // WithConfigFlags sets the config flags for kubeconfig
 func WithConfigFlags(configFlags *genericclioptions.ConfigFlags) Option {
 	return func(kc *KubeConfig) {
+		kc.configFlags = configFlags
 		var kubeconfigPath string
 		if configFlags != nil && configFlags.KubeConfig != nil && *configFlags.KubeConfig != "" {
 			kubeconfigPath = *configFlags.KubeConfig
@@ -158,4 +162,8 @@ func (kubeConfig KubeConfig) GetKubeconfigPath() string {
 
 func (kubeConfig KubeConfig) WriteToFile(path string) error {
 	return clientcmd.WriteToFile(*kubeConfig.APIConfig, path)
+}
+
+func (kubeConfig KubeConfig) GetConfigFlags() *genericclioptions.ConfigFlags {
+	return kubeConfig.configFlags
 }
