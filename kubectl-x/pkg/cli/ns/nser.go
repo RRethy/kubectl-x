@@ -60,7 +60,7 @@ func (n Nser) Ns(ctx context.Context, namespace string, exactMatch bool) error {
 		}
 
 		klog.V(4).Infof("Running fzf for namespace selection: query=%s", namespace)
-		fzfCfg := fzf.Config{ExactMatch: exactMatch, Sorted: true, Multi: false, Prompt: "Select context", Query: namespace}
+		fzfCfg := fzf.Config{ExactMatch: exactMatch, Sorted: true, Multi: false, Prompt: "Select namespace", Query: namespace}
 		results, err := n.Fzf.Run(context.Background(), namespaceNames, fzfCfg)
 		if err != nil {
 			return fmt.Errorf("selecting namespace: %s", err)
